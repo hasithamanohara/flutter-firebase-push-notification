@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutternotification/service/localnotifications.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,24 +16,33 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    LocalNotificationService.initialize();
+
+    //terminated status
     FirebaseMessaging.instance.getInitialMessage().then((event) {
       if (event != null) {
         setState(() {
           notificationMsg =
-              "${event.notification!.title} ${event.notification!.body} this is a terminated push notification";
+              "${event.notification!.title} ${event.notification!.body} terminated state";
         });
       }
     });
+
+    //foreground notification
     FirebaseMessaging.onMessage.listen((event) {
       setState(() {
         notificationMsg =
-            "${event.notification!.title} ${event.notification!.body} this is a forground push notification";
+            "${event.notification!.title} ${event.notification!.body} from forground";
       });
     });
+
+    //backgrond
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      LocalNotificationService.showNotificationOnForeground(event);
       setState(() {
         notificationMsg =
-            "${event.notification!.title} ${event.notification!.body} this is a background push notification";
+            "${event.notification!.title} ${event.notification!.body} from background";
       });
     });
   }
