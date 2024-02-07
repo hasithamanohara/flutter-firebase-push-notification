@@ -16,15 +16,23 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     FirebaseMessaging.instance.getInitialMessage().then((event) {
-      setState(() {
-        notificationMsg =
-            "${event!.notification!.title} ${event.notification!.body} rhis is a forground push notification";
-      });
+      if (event != null) {
+        setState(() {
+          notificationMsg =
+              "${event.notification!.title} ${event.notification!.body} this is a terminated push notification";
+        });
+      }
     });
     FirebaseMessaging.onMessage.listen((event) {
       setState(() {
         notificationMsg =
             "${event.notification!.title} ${event.notification!.body} this is a forground push notification";
+      });
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      setState(() {
+        notificationMsg =
+            "${event.notification!.title} ${event.notification!.body} this is a background push notification";
       });
     });
   }
