@@ -11,11 +11,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String notificationMsg = "This is a Notification";
+  String? mtoken = " ";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    requestPermission();
+    getToken();
 
     LocalNotificationService.initialize();
 
@@ -43,6 +46,38 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         notificationMsg =
             "${event.notification!.title} ${event.notification!.body} from background";
+      });
+    });
+  }
+
+
+  //request get for send notifications
+  void requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      print('User granted provisional permission');
+    } else {
+      print('User declined or has not accepted permission');
+    }
+  }
+
+  //get token
+  void getToken() async {
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
       });
     });
   }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -21,10 +19,8 @@ class LocalNotificationService {
   static void showNotificationOnForeground(RemoteMessage message) {
     final notificationDetail = NotificationDetails(
         android: AndroidNotificationDetails(
-            "com.example.flutternotification",
-            "flutternotification",
-            importance: Importance.max,
-            priority: Priority.high));
+            "com.example.flutternotification", "flutternotification",
+            importance: Importance.max, priority: Priority.high));
 
     _notificationsPlugin.show(
         DateTime.now().microsecond,
