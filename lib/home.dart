@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(title: const Text("Push Notifications")),
       body: const Center(
         child: Text(
-          "push notifications in Flutter",
+          "push notifications",
         ),
       ),
     );
