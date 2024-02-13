@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutternotification/API/post_device_token.dart';
 import 'package:flutternotification/main.dart';
 
 class PushNotifications {
@@ -20,6 +21,7 @@ class PushNotifications {
     // get the device fcm token
     final token = await _firebaseMessaging.getToken();
     print("device token: $token");
+    final apiService = ApiService();
   }
 
 // initalize local notifications
