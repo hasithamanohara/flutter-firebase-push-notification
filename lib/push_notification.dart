@@ -21,7 +21,9 @@ class PushNotifications {
     // get the device fcm token
     final token = await _firebaseMessaging.getToken();
     print("device token: $token");
+    //send device token to the api service class
     final apiService = ApiService();
+    await apiService.sendDeviceToken(token!);
   }
 
 // initalize local notifications
